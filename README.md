@@ -8,7 +8,7 @@ Because FurAffinity does not provide an API for programs to easily interface wit
 1. In your web browser of choice, log into your old account. 
 2. Under your [Account Settings](https://www.furaffinity.net/controls/settings/), change the Site Layout/Theme setting to use the Modern template. If this is not done, the script will fail to work. Save this change.
   
-    <details>
+    <details open>
     <summary>Screenshot</summary>
 
     ![](./images/settings.png)
@@ -17,7 +17,7 @@ Because FurAffinity does not provide an API for programs to easily interface wit
 
 3. On any page on FA, right click on the page and select "Inspect" in the menu that appears. The Web Developer tools should appear.
 
-    <details>
+    <details open>
     <summary>Screenshot</summary>
 
     ### Chrome
@@ -52,7 +52,7 @@ Because FurAffinity does not provide an API for programs to easily interface wit
 
 5. In the list of cookies, there should be two entries labeled `a` and `b`. For each entry, double click on the value to begin editing it, copy the entire value, and paste it somewhere where you can refer back to it later (I use a Notepad window). Make sure you know which value is `a` and which value is `b`. 
 
-    <details>
+    <details open>
     <summary>Screenshot</summary>
 
     ![](./images/copying_cookies.png)
