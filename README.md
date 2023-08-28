@@ -17,6 +17,7 @@
   * [ ] Folder membership
 * [ ] Profile settings
 * [ ] User preferences
+* [ ] User avatar
 * [ ] Journals? Might be a bad idea
 * [ ] Warnings if the new file may get scrungled by FA file compression
   * [ ] Ability to automatically scrungle files, specify new artist-provided files, or cancel those

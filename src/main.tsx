@@ -1,5 +1,5 @@
 import { render } from "preact";
 import App from "./App";
-import "mvp.css/mvp.css";
+import "./styles.scss"
 
 render(<App />, document.getElementById("root")!);

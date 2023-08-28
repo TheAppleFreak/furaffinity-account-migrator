@@ -30,8 +30,14 @@
         "create": true,
         "close": true,
         "setFocus": true,
+        "hide": true,
         "show": true,
-        "setTitle": true
+        "setTitle": true,
+        "minimize": true,
+        "maximize": true,
+        "unminimize": true,
+        "unmaximize": true,
+        "startDragging": true
       }
     },
     "bundle": {
