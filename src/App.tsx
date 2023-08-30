@@ -1,48 +1,79 @@
-import { Component } from "preact";
-// import { invoke } from "@tauri-apps/api/tauri";
+import { useState, useEffect } from "preact/hooks";
+import classNames from "classnames";
 
-import { IoMdArrowRoundForward } from "react-icons/io";
+import { AccountContext } from "./context/accounts";
 
-class App extends Component {
-    render() {
-        return (
+import LoginComponent from "./login";
+
+import type { AccountSchema } from "./context/accounts";
+
+const App = () => {
+    const tabs = {
+        LOGIN: 1,
+        SELECT: 2,
+        CONFIRM: 3
+    } as const;
+
+    const [activeTab, setActiveTab] = useState(tabs.LOGIN as number);
+    const [latestAvailableTab, setLatestAvailableTab] = useState(tabs.LOGIN as number);
+    const [accounts, setAccounts] = useState({
+        source: { isLoggedIn: false },
+        target: { isLoggedIn: false }
+    } as AccountSchema);
+
+    useEffect(() => {
+        if (accounts.source.isLoggedIn && accounts.target.isLoggedIn) {
+            setLatestAvailableTab(tabs.SELECT);
+        } else {
+            setLatestAvailableTab(tabs.LOGIN);
+        }
+    }, [accounts.source.isLoggedIn, accounts.target.isLoggedIn])
+
+    const attemptSwitchToTab = (requestedTab: number) => {
+        if (requestedTab === activeTab || requestedTab > latestAvailableTab) return;
+
+        setActiveTab(() => requestedTab);
+    };
+
+    return (
+        <>
             <div className="h-screen pb-10">
+                <AccountContext.Provider value={{ accounts, setAccounts }}>
+                    <LoginComponent />
+                </AccountContext.Provider>
                 <nav className="tabs tabs-boxed justify-center absolute bottom-0 w-full">
-                    <a className="tab tab-active">Login to FurAffinity</a> 
-                    <a className="tab tab-disabled">Select items to migrate</a> 
-                    <a className="tab tab-disabled">Confirm</a>
+                    <a
+                        className={classNames("tab", {
+                            "tab-active": activeTab === tabs.LOGIN
+                        })}
+                        onClick={() => attemptSwitchToTab(tabs.LOGIN)}
+                    >
+                        Login to FurAffinity
+                    </a>
+                    <a
+                        className={classNames(
+                            "tab",
+                            { "tab-active": activeTab === tabs.SELECT },
+                            { "tab-disabled": latestAvailableTab < tabs.SELECT }
+                        )}
+                        onClick={() => attemptSwitchToTab(tabs.SELECT)}
+                    >
+                        Select items to migrate
+                    </a>
+                    <a
+                        className={classNames(
+                            "tab",
+                            { "tab-active": activeTab === tabs.CONFIRM },
+                            { "tab-disabled": latestAvailableTab < tabs.CONFIRM }
+                        )}
+                        onClick={() => attemptSwitchToTab(tabs.CONFIRM)}
+                    >
+                        Confirm
+                    </a>
                 </nav>
-                <main className="h-full p-4">
-                    <div className="flex h-full flex-col align-middle items-center">
-                        <div className="flex h-full justify-center items-center gap-16">
-                            <div className="flex flex-col w-60 h-80 bg-base-200 rounded-2xl items-center justify-center align-middle">
-                                <h1 className="font-bold text-lg">Source account</h1>
-                                <div className="avatar placeholder my-6">
-                                    <div className="w-32 rounded-full bg-neutral-focus text-neutral-content">
-                                        <span className="text-3xl">...</span>
-                                    </div>
-                                </div>
-                                <button className="btn btn-primary rounded-sm">Sign in</button>
-                            </div>
-                            <IoMdArrowRoundForward size="5em" />
-                            <div className="flex flex-col w-60 h-80 bg-base-200 rounded-2xl items-center justify-center align-middle">
-                                <h1 className="font-bold text-lg">Target account</h1>
-                                <div className="avatar placeholder my-6">
-                                    <div className="w-32 rounded-full bg-neutral-focus text-neutral-content">
-                                        <span className="text-3xl">...</span>
-                                    </div>
-                                </div>
-                                <button className="btn btn-primary rounded-sm">Sign in</button>
-                            </div>
-                        </div>
-                        <div className="mb-8 flex items-center justify-center">
-                            <button className="btn btn-disabled">Next step</button>
-                        </div>
-                    </div>
-                </main>
             </div>
-        );
-    }
-}
+        </>
+    );
+};
 
 export default App;
