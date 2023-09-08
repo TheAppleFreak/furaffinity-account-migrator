@@ -2,12 +2,14 @@ import { useContext } from "preact/hooks";
 import classnames from "classnames";
 import { IoMdArrowRoundDown, IoMdArrowForward } from "react-icons/io";
 
-import { AccountContext } from "./context/accounts";
+import { AccountContext } from "../context/accounts";
+
+import InstructionsComponent from "./instructions";
 
 const LoginComponent = () => {
     const { accounts, setAccounts } = useContext(AccountContext);
 
-    async function logIntoAccount (): Promise<(typeof accounts)["source"]> {
+    async function logIntoAccount(): Promise<(typeof accounts)["source"]> {
         return {
             a: "adflkasjd",
             b: "dhfgkjsfh",
@@ -15,7 +17,7 @@ const LoginComponent = () => {
             name: Math.random().toString(36).slice(2, 9),
             avatarUrl: "https://placehold.co/100.png"
         };
-    };
+    }
     const logIntoSourceAccount = async () => {
         if (!accounts.source.isLoggedIn) {
             // Log in
@@ -53,9 +55,7 @@ const LoginComponent = () => {
 
     return (
         <div className="w-full h-full flex">
-            <div className="w-full px-8 bg-base-200">
-                <p className="my-8">ey here's how you do the thing</p>
-            </div>
+            <InstructionsComponent />
             <div className="w-full h-full flex flex-col align-center items-center justify-center gap-4 relative">
                 <div
                     className={classnames(
@@ -80,7 +80,7 @@ const LoginComponent = () => {
                         </div>
                     </div>
                     <div className="w-64 flex flex-col align-center">
-                        <h2 className="text-xl font-bold">Source Account</h2>
+                        <h1 className="text-xl font-bold">Source Account</h1>
                         <p>
                             {accounts.source.isLoggedIn
                                 ? accounts.source.name
@@ -103,7 +103,7 @@ const LoginComponent = () => {
                                     </label>
                                     <input
                                         className="input input-bordered join-item input-sm w-full"
-                                        placeholder="'b' cookie'"
+                                        placeholder="'b' cookie"
                                     />
                                 </div>
                             </div>
@@ -142,7 +142,7 @@ const LoginComponent = () => {
                         </div>
                     </div>
                     <div className="w-64 flex flex-col align-center">
-                        <h2 className="text-xl font-bold">Target Account</h2>
+                        <h1 className="text-xl font-bold">Target Account</h1>
                         <p>
                             {accounts.target.isLoggedIn
                                 ? accounts.target.name
@@ -165,7 +165,7 @@ const LoginComponent = () => {
                                     </label>
                                     <input
                                         className="input input-bordered join-item input-sm w-full"
-                                        placeholder="'b' cookie'"
+                                        placeholder="'b' cookie"
                                     />
                                 </div>
                             </div>
@@ -181,13 +181,18 @@ const LoginComponent = () => {
                     </div>
                 </div>
                 <div
-                    className={classnames("absolute w-full h-12 bottom-0 bg-base-200 flex align-center items-center justify-center", {
-                        hidden: !(
-                            accounts.source.isLoggedIn && accounts.target.isLoggedIn
-                        )
-                    })}
+                    className={classnames(
+                        "absolute w-full h-12 bottom-0 bg-base-200 flex align-center items-center justify-center",
+                        {
+                            hidden: !(
+                                accounts.source.isLoggedIn && accounts.target.isLoggedIn
+                            )
+                        }
+                    )}
                 >
-                    <button className="btn btn-primary btn-sm">Next <IoMdArrowForward /></button>
+                    <button className="btn btn-primary btn-sm">
+                        Next <IoMdArrowForward />
+                    </button>
                 </div>
             </div>
         </div>
