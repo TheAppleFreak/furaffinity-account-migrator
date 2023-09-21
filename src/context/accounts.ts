@@ -20,23 +20,19 @@ export const AccountContext = createContext({
     },
     setAccounts: undefined!
 } as {
-    accounts: AccountSchema;
-    setAccounts: StateUpdater<AccountSchema>;
+    accounts: AccountsSchema;
+    setAccounts: StateUpdater<AccountsSchema>;
 });
 
+export interface AccountsSchema {
+    source: AccountSchema;
+    target: AccountSchema;
+}
+
 export interface AccountSchema {
-    source: {
-        a?: string;
-        b?: string;
-        isLoggedIn: boolean;
-        name?: string;
-        avatarUrl?: string;
-    };
-    target: {
-        a?: string;
-        b?: string;
-        isLoggedIn: boolean;
-        name?: string;
-        avatarUrl?: string;
-    };
+    a?: string;
+    b?: string;
+    isLoggedIn: boolean;
+    name?: string;
+    avatarUrl?: string;
 }

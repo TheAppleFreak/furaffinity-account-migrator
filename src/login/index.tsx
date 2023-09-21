@@ -2,17 +2,22 @@ import { useContext } from "preact/hooks";
 import classnames from "classnames";
 import { IoMdArrowRoundDown, IoMdArrowForward } from "react-icons/io";
 
-import { AccountContext } from "../context/accounts";
+import { AccountContext, AccountSchema } from "../context/accounts";
 
 import InstructionsComponent from "./instructions";
+import FurAffinityAccount from "../fa";
 
 const LoginComponent = () => {
     const { accounts, setAccounts } = useContext(AccountContext);
 
-    async function logIntoAccount(): Promise<(typeof accounts)["source"]> {
+    async function logIntoAccount(a: string, b: string): Promise<AccountSchema> {
+        const client = new FurAffinityAccount({a, b});
+
+        console.log(await client.get("/"));
+
         return {
-            a: "adflkasjd",
-            b: "dhfgkjsfh",
+            a,
+            b,
             isLoggedIn: true,
             name: Math.random().toString(36).slice(2, 9),
             avatarUrl: "https://placehold.co/100.png"
@@ -21,8 +26,11 @@ const LoginComponent = () => {
     const logIntoSourceAccount = async () => {
         if (!accounts.source.isLoggedIn) {
             // Log in
+            const a = (document.getElementById("sourceCookieA") as HTMLInputElement).value;
+            const b = (document.getElementById("sourceCookieB") as HTMLInputElement).value;
+
             setAccounts({
-                source: await logIntoAccount(),
+                source: await logIntoAccount(a, b),
                 target: accounts.target
             });
         } else {
@@ -38,9 +46,12 @@ const LoginComponent = () => {
     const logIntoTargetAccount = async () => {
         if (!accounts.target.isLoggedIn) {
             // Log in
+            const a = (document.getElementById("targetCookieA") as HTMLInputElement).value;
+            const b = (document.getElementById("targetCookieB") as HTMLInputElement).value;
+
             setAccounts({
                 source: accounts.source,
-                target: await logIntoAccount()
+                target: await logIntoAccount(a, b)
             });
         } else {
             // Log out
@@ -95,6 +106,7 @@ const LoginComponent = () => {
                                     <input
                                         className="input input-bordered join-item input-sm w-full"
                                         placeholder="'a' cookie"
+                                        id="sourceCookieA"
                                     />
                                 </div>
                                 <div className="join flex">
@@ -104,6 +116,7 @@ const LoginComponent = () => {
                                     <input
                                         className="input input-bordered join-item input-sm w-full"
                                         placeholder="'b' cookie"
+                                        id="sourceCookieB"
                                     />
                                 </div>
                             </div>
@@ -157,6 +170,7 @@ const LoginComponent = () => {
                                     <input
                                         className="input input-bordered join-item input-sm w-full"
                                         placeholder="'a' cookie"
+                                        id="targetCookieA"
                                     />
                                 </div>
                                 <div className="join flex">
@@ -166,6 +180,7 @@ const LoginComponent = () => {
                                     <input
                                         className="input input-bordered join-item input-sm w-full"
                                         placeholder="'b' cookie"
+                                        id="targetCookieB"
                                     />
                                 </div>
                             </div>

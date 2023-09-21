@@ -1,5 +1,6 @@
-import { useState } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 import { open } from "@tauri-apps/api/shell";
+import { platform } from "@tauri-apps/api/os";
 import classnames from "classnames";
 
 import imgChromeInspect from "./images/chrome/inspect.png";
@@ -8,7 +9,7 @@ import imgChromeCookiesView from "./images/chrome/cookies-view.png";
 
 import imgFirefoxInspect from "./images/firefox/inspect.png";
 import imgFirefoxNetworkTab from "./images/firefox/network-tab.png";
-import imgFirefoxCookiesView from "./images/firefox/cookies-view.png"
+import imgFirefoxCookiesView from "./images/firefox/cookies-view.png";
 
 import imgSafariSettings from "./images/safari/settings.png";
 import imgSafariEnableDevTools from "./images/safari/enable-developer-mode.png";
@@ -25,6 +26,13 @@ const InstructionsComponent = () => {
     }
 
     const [browser, setBrowser] = useState<Browsers>(Browsers.CHROME);
+    const [os, setOs] = useState<Awaited<ReturnType<typeof platform>>>();
+
+    useEffect(() => {
+        (async () => {
+            setOs(await platform());
+        })();
+    }, []);
 
     return (
         <div className="w-full bg-base-200 overflow-auto">
@@ -53,15 +61,29 @@ const InstructionsComponent = () => {
                     >
                         Firefox
                     </a>
-                    <a
-                        className={classnames("tab", "tab-bordered", {
-                            "tab-active": browser === Browsers.SAFARI
-                        })}
-                        onClick={() => setBrowser(Browsers.SAFARI)}
-                    >
-                        Safari (macOS)
-                    </a>
+                    {os === "darwin" ? (
+                        <a
+                            className={classnames("tab", "tab-bordered", {
+                                "tab-active": browser === Browsers.SAFARI
+                            })}
+                            onClick={() => setBrowser(Browsers.SAFARI)}
+                        >
+                            Safari
+                        </a>
+                    ) : (
+                        ""
+                    )}
                 </div>
+
+                {os === "darwin" && browser !== Browsers.SAFARI ? (
+                    <p>
+                        <span className="font-bold">Note:</span> While these screenshots
+                        were taken on Windows, the process should be the same on macOS.
+                    </p>
+                ) : (
+                    ""
+                )}
+
                 <ol className="list-decimal pl-6">
                     <li className="my-2">
                         <p>Log into FurAffinity.</p>
@@ -77,7 +99,7 @@ const InstructionsComponent = () => {
                         <>
                             <li className="my-2">
                                 <p>
-                                    On any page on FA, right click and select {" "}
+                                    On any page on FA, right click and select{" "}
                                     <span className="font-bold">Inspect</span> in the
                                     menu that appears. The Web Developer tools should
                                     appear.
@@ -86,9 +108,17 @@ const InstructionsComponent = () => {
                             </li>
                             <li className="my-2">
                                 <p>
-                                    Select the <span className="font-bold">Application</span> tab, and in the sidebar, select <span className="font-bold">Cookies</span> → <code>https://www.furaffinity.net</code>. The main pane of the window should have several entries.
+                                    Select the{" "}
+                                    <span className="font-bold">Application</span> tab,
+                                    and in the sidebar, select{" "}
+                                    <span className="font-bold">Cookies</span> →{" "}
+                                    <code>https://www.furaffinity.net</code>. The main
+                                    pane of the window should have several entries.
                                 </p>
-                                <img className="my-2" src={imgChromeApplicationsView}></img>
+                                <img
+                                    className="my-2"
+                                    src={imgChromeApplicationsView}
+                                ></img>
                                 <img className="my-2" src={imgChromeCookiesView}></img>
                             </li>
                         </>
@@ -99,7 +129,7 @@ const InstructionsComponent = () => {
                         <>
                             <li className="my-2">
                                 <p>
-                                    On any page on FA, right click and select
+                                    On any page on FA, right click and select{" "}
                                     <span className="font-bold">Inspect</span> in the
                                     menu that appears. The Web Developer tools should
                                     appear.
@@ -108,7 +138,13 @@ const InstructionsComponent = () => {
                             </li>
                             <li className="my-2">
                                 <p>
-                                    Select the <span className="font-bold">Network</span> tab. In the list of entries, look for one with a domain of <code>www.furaffinity.net</code> (if no such entry exists, reload the page). Select that entry, and in the inspector on the right side, select the <span className="font-bold">Cookies</span> tab.
+                                    Select the{" "}
+                                    <span className="font-bold">Network</span> tab. In
+                                    the list of entries, look for one with a domain of{" "}
+                                    <code>www.furaffinity.net</code> (if no such entry
+                                    exists, reload the page). Select that entry, and in
+                                    the inspector on the right side, select the{" "}
+                                    <span className="font-bold">Cookies</span> tab.
                                 </p>
                                 <img className="my-2" src={imgFirefoxNetworkTab}></img>
                                 <img className="my-2" src={imgFirefoxCookiesView}></img>

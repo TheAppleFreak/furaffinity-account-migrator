@@ -5,7 +5,7 @@ import { AccountContext } from "./context/accounts";
 
 import LoginComponent from "./login";
 
-import type { AccountSchema } from "./context/accounts";
+import type { AccountsSchema } from "./context/accounts";
 
 const App = () => {
     enum Tabs {
@@ -19,7 +19,7 @@ const App = () => {
     const [accounts, setAccounts] = useState({
         source: { isLoggedIn: false },
         target: { isLoggedIn: false }
-    } as AccountSchema);
+    } as AccountsSchema);
 
     useEffect(() => {
         if (accounts.source.isLoggedIn && accounts.target.isLoggedIn) {
