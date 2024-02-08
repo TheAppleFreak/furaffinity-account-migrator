@@ -30,7 +30,7 @@ Because FurAffinity does not provide an API for programs to easily interface wit
 
 4. The steps diverge here slightly depending on your web browser of choice. 
 
-    * **For Chrome, Edge, and other Chromium-based browsers**: Select the "Application" tab, and in the sidebar of that pane, select Cookies -> https://furaffinity.net. In the main pane of the window, there should be several entries listed in the table.
+    * **For Chrome, Edge, and other Chromium-based browsers**: Select the "Application" tab, and in the sidebar of that pane, select Cookies -> https://www.furaffinity.net. In the main pane of the window, there should be several entries listed in the table.
 
         <details>
         <summary>Screenshots</summary>
@@ -82,7 +82,7 @@ On the application side:
 6. Enter `npm start` to launch the program.
 7. Enter the information requested when asked. In Windows, you paste by right-clicking into the terminal window. 
 8. Use your arrow keys and Enter to answer the other questions when prompted.
-9. Give the application some time, especially if you've got a lot of items favorited or a lot of users watched. 
+9. Give the application some time, especially if you've got a lot of items favorited or a lot of users watched. By default, favoriting one submission or watching one artist will take a minimum of 1.5 seconds each (two pageloads with a 750ms delay between each), which can add up quite quickly. 
 
 ## Contributing
 
